@@ -2,6 +2,7 @@ package environment_test
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/stellaraf/go-utils/environment"
@@ -20,16 +21,18 @@ func Test_Load(t *testing.T) {
 	})
 	t.Run("load with options", func(t *testing.T) {
 		type Env struct {
-			Lang string `env:"LANG"`
+			Test string `env:"TEST_VARIABLE"`
 		}
 		var env *Env
 		options := &environment.EnvironmentOptions{
 			DotEnv:           false,
 			ProjectRootDepth: 1,
 		}
+		value := "value"
+		os.Setenv("TEST_VARIABLE", value)
 		err := environment.Load(&env, options)
 		assert.NoError(t, err)
-		assert.Equal(t, "en_US.UTF-8", env.Lang)
+		assert.Equal(t, value, env.Test)
 	})
 }
 
