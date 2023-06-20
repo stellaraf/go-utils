@@ -11,7 +11,7 @@
     <img alt="GitHub tag (latest SemVer)" src="https://img.shields.io/github/v/tag/stellaraf/go-utils?color=%2306D6A0&label=version">
   </a>
   <a href="https://github.com/stellaraf/go-utils/actions/workflows/tests.yml">
-    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/stellaraf/go-utils/Test">
+    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/stellaraf/go-utils/tests.yml">
   </a>
   <br/>
   <br/>
