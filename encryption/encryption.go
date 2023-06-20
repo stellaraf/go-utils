@@ -19,6 +19,15 @@ func deriveKey(passphrase string, salt []byte) ([]byte, []byte) {
 	return pbkdf2.Key([]byte(passphrase), salt, 1000, 32, sha256.New), salt
 }
 
+/*
+Encrypt encrypts a given string using AES-256-GCM encryption with a passphrase.
+
+Usage:
+
+	passphrase := "super secret password"
+	value := "value to be encrypted"
+	encrypted, err := encryption.Encrypt(passphrase, value)
+*/
 func Encrypt(passphrase, plaintext string) (encrypted string, err error) {
 	key, salt := deriveKey(passphrase, nil)
 	iv := make([]byte, 12)
@@ -42,6 +51,15 @@ func Encrypt(passphrase, plaintext string) (encrypted string, err error) {
 	return
 }
 
+/*
+Decrypt decrypts a cipher that was encrypted using AES-256-GCM encryption.
+
+Usage:
+
+	passphrase := "super secret password"
+	cipherText := "cipher value"
+	decrypted, err := encryption.Decrypt(passphrase, cipherText)
+*/
 func Decrypt(passphrase, ciphertext string) (decrypted string, err error) {
 	arr := strings.Split(ciphertext, "-")
 	salt, err := hex.DecodeString(arr[0])

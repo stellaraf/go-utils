@@ -13,7 +13,18 @@ import (
 )
 
 type EnvironmentOptions struct {
-	DotEnv           bool
+
+	// DotEnv determines if environment variables should be loaded from a file named `.env`.
+	// If `true`, `environment.Load` will look for a file named `.env` at the project root
+	// and load its contents as environment variables.
+	//
+	// Default: `true`
+	DotEnv bool
+
+	// ProjectRootDepth defines the number of upward directories to check for a `.env` file
+	// from whichever file calls `environment.Load`.
+	//
+	// Default: `4`
 	ProjectRootDepth int
 }
 
@@ -31,11 +42,11 @@ func findGoMod(start string) (dir string, err error) {
 	return
 }
 
-func findProjectRoot() (root string, err error) {
+func findProjectRoot(depth int) (root string, err error) {
 	start := "."
 	for {
-		if len(start) > 4 {
-			err = fmt.Errorf("failed to locate project root, exceeded depth of 4")
+		if len(start) > depth {
+			err = fmt.Errorf("failed to locate project root, exceeded depth of %d", depth)
 			return
 		}
 		dir, err := findGoMod(start)
@@ -56,8 +67,8 @@ func findProjectRoot() (root string, err error) {
 	return
 }
 
-func loadDotEnv() (err error) {
-	projectRoot, err := findProjectRoot()
+func loadDotEnv(depth int) (err error) {
+	projectRoot, err := findProjectRoot(depth)
 	if err != nil {
 		return
 	}
@@ -71,26 +82,46 @@ func loadDotEnv() (err error) {
 	return
 }
 
-func processOptions(optionsIn *EnvironmentOptions) (options *EnvironmentOptions) {
-	if optionsIn != nil {
-		options = optionsIn
-		if options.ProjectRootDepth == 0 {
-			options.ProjectRootDepth = 4
+func getOptions(optionsIn []*EnvironmentOptions) (options *EnvironmentOptions) {
+	defaultOptions := &EnvironmentOptions{
+		DotEnv:           true,
+		ProjectRootDepth: 4,
+	}
+	if len(optionsIn) != 0 {
+		firstOptions := optionsIn[0]
+		if firstOptions != nil {
+			if firstOptions.ProjectRootDepth == 0 {
+				firstOptions.ProjectRootDepth = 4
+			}
+			options = firstOptions
+		} else {
+			options = defaultOptions
 		}
 	}
-	if optionsIn == nil {
-		options = &EnvironmentOptions{
-			DotEnv:           true,
-			ProjectRootDepth: 4,
-		}
+	if len(optionsIn) == 0 {
+		options = defaultOptions
 	}
 	return
 }
 
-func Load(ref any, options *EnvironmentOptions) (err error) {
-	opts := processOptions(options)
+/*
+Load environment variables and store the result in passed ref.
+
+Usage:
+
+	type Env struct {
+		Key string `env:"KEY"`
+	}
+
+	var env *Env
+
+	err := environment.Load(&env)
+	env.Key // Output: "value"
+*/
+func Load(ref any, options ...*EnvironmentOptions) (err error) {
+	opts := getOptions(options)
 	if opts.DotEnv {
-		err = loadDotEnv()
+		err = loadDotEnv(opts.ProjectRootDepth)
 		if err != nil {
 			return
 		}
