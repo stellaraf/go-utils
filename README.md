@@ -15,4 +15,12 @@
   </a>
   <br/>
   <br/>
+
+  # Packages
+
+  | Package       | Usage                                                                                   |                                                                  Docs                                                                  |
+  | :------------ | :-------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------: |
+  | `encryption`  | Basic utilities for encrypting and decrypting values with AES-256-GCM encryption        | [![Go Docs](https://pkg.go.dev/badge/github.com/stellaraf/go-utils.svg)](https://pkg.go.dev/github.com/stellaraf/go-utils/encryption)  |
+  | `environment` | Parse environment variables to a predefined struct. Supports loading from `.env` files. | [![Go Docs](https://pkg.go.dev/badge/github.com/stellaraf/go-utils.svg)](https://pkg.go.dev/github.com/stellaraf/go-utils/environment) |
+
 </div>
