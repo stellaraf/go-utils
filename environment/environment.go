@@ -1,18 +1,19 @@
 package environment
 
 import (
-	"encoding/json"
 	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
-	"reflect"
 	"strings"
 
+	"github.com/caarlos0/env/v9"
 	"github.com/joho/godotenv"
 )
 
 type EnvironmentOptions struct {
+	// Options from github.com/caarlos0/env/v9.
+	env.Options
 
 	// DotEnv determines if environment variables should be loaded from a file named `.env`.
 	// If `true`, `environment.Load` will look for a file named `.env` at the project root
@@ -113,7 +114,7 @@ Usage:
 		Key string `env:"KEY"`
 	}
 
-	var env *Env
+	var env Env
 
 	err := environment.Load(&env)
 	env.Key // Output: "value"
@@ -126,20 +127,16 @@ func Load(ref any, options ...*EnvironmentOptions) (err error) {
 			return
 		}
 	}
-	data := make(map[string]any)
-	t := reflect.TypeOf(ref).Elem().Elem()
-
-	for i := 0; i < t.NumField(); i++ {
-		f := t.Field(i)
-		if tag, ok := f.Tag.Lookup("env"); ok {
-			value := os.Getenv(tag)
-			data[f.Name] = value
-		}
+	libOpts := env.Options{
+		Environment:           opts.Environment,
+		TagName:               opts.TagName,
+		RequiredIfNoDef:       opts.RequiredIfNoDef,
+		OnSet:                 opts.OnSet,
+		Prefix:                opts.Prefix,
+		UseFieldNameByDefault: opts.UseFieldNameByDefault,
+		FuncMap:               opts.FuncMap,
 	}
-	dataJSON, err := json.Marshal(data)
-	if err != nil {
-		return
-	}
-	err = json.Unmarshal(dataJSON, ref)
+	err = env.ParseWithOptions(ref, libOpts)
 	return
+
 }

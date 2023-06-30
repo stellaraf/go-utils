@@ -3,6 +3,7 @@ module github.com/stellaraf/go-utils
 go 1.20
 
 require (
+	github.com/caarlos0/env/v9 v9.0.0
 	github.com/joho/godotenv v1.5.1
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/crypto v0.10.0

@@ -14,7 +14,7 @@ func Test_Load(t *testing.T) {
 		type Env struct {
 			Key string `env:"KEY"`
 		}
-		var env *Env
+		var env Env
 		err := environment.Load(&env, nil)
 		assert.NoError(t, err)
 		assert.Equal(t, "value", env.Key)
@@ -23,7 +23,7 @@ func Test_Load(t *testing.T) {
 		type Env struct {
 			Test string `env:"TEST_VARIABLE"`
 		}
-		var env *Env
+		var env Env
 		options := &environment.EnvironmentOptions{
 			DotEnv:           false,
 			ProjectRootDepth: 1,
@@ -40,7 +40,7 @@ func ExampleLoad() {
 	type Env struct {
 		Key string `env:"KEY"`
 	}
-	var env *Env
+	var env Env
 	err := environment.Load(&env)
 	if err != nil {
 		panic(err)
