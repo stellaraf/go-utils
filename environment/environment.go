@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 
 	"github.com/caarlos0/env/v9"
@@ -12,8 +13,29 @@ import (
 )
 
 type EnvironmentOptions struct {
-	// Options from github.com/caarlos0/env/v9.
-	env.Options
+
+	// Environment keys and values that will be accessible for the service. From github.com/caarlos0/env/v9
+	Environment map[string]string
+
+	// TagName specifies another tagname to use rather than the default env. From github.com/caarlos0/env/v9
+	TagName string
+
+	// RequiredIfNoDef automatically sets all env as required if they do not
+	// declare 'envDefault'. From github.com/caarlos0/env/v9
+	RequiredIfNoDef bool
+
+	// OnSet allows to run a function when a value is set. From github.com/caarlos0/env/v9
+	OnSet func(tag string, value interface{}, isDefault bool)
+
+	// Prefix define a prefix for each key. From github.com/caarlos0/env/v9
+	Prefix string
+
+	// UseFieldNameByDefault defines whether or not env should use the field
+	// name by default if the `env` key is missing. From github.com/caarlos0/env/v9
+	UseFieldNameByDefault bool
+
+	// Custom parse functions for different types. From github.com/caarlos0/env/v9
+	FuncMap map[reflect.Type]func(v string) (interface{}, error)
 
 	// DotEnv determines if environment variables should be loaded from a file named `.env`.
 	// If `true`, `environment.Load` will look for a file named `.env` at the project root
@@ -127,6 +149,10 @@ func Load(ref any, options ...*EnvironmentOptions) (err error) {
 			return
 		}
 	}
+	fm := make(map[reflect.Type]env.ParserFunc)
+	for key := range opts.FuncMap {
+		fm[key] = opts.FuncMap[key]
+	}
 	libOpts := env.Options{
 		Environment:           opts.Environment,
 		TagName:               opts.TagName,
@@ -134,7 +160,7 @@ func Load(ref any, options ...*EnvironmentOptions) (err error) {
 		OnSet:                 opts.OnSet,
 		Prefix:                opts.Prefix,
 		UseFieldNameByDefault: opts.UseFieldNameByDefault,
-		FuncMap:               opts.FuncMap,
+		FuncMap:               fm,
 	}
 	err = env.ParseWithOptions(ref, libOpts)
 	return
