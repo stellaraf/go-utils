@@ -66,9 +66,14 @@ func findGoMod(start string) (dir string, err error) {
 }
 
 func findProjectRoot(depth int) (root string, err error) {
-	start := "."
+	start, err := os.Getwd()
+	if err != nil {
+		return
+	}
+	loops := 0
 	for {
-		if len(start) > depth {
+		loops++
+		if loops > depth {
 			err = fmt.Errorf("failed to locate project root, exceeded depth of %d", depth)
 			return
 		}
@@ -77,7 +82,10 @@ func findProjectRoot(depth int) (root string, err error) {
 			return "", err
 		}
 		if dir == "" {
-			start += "."
+			start, err = filepath.Abs(filepath.Dir(start))
+			if err != nil {
+				return "", err
+			}
 			continue
 		} else {
 			root, err = filepath.Abs(dir)
