@@ -1,15 +1,13 @@
 package environment
 
 import (
-	"fmt"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"reflect"
-	"strings"
 
 	"github.com/caarlos0/env/v9"
 	"github.com/joho/godotenv"
+	"github.com/stellaraf/go-utils"
 )
 
 type EnvironmentOptions struct {
@@ -51,55 +49,8 @@ type EnvironmentOptions struct {
 	ProjectRootDepth int
 }
 
-func findGoMod(start string) (dir string, err error) {
-	err = filepath.Walk(start, func(path string, file fs.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if strings.Contains(file.Name(), "go.mod") {
-			dir = filepath.Dir(path)
-			return nil
-		}
-		return nil
-	})
-	return
-}
-
-func findProjectRoot(depth int) (root string, err error) {
-	start, err := os.Getwd()
-	if err != nil {
-		return
-	}
-	loops := 0
-	for {
-		loops++
-		if loops > depth {
-			err = fmt.Errorf("failed to locate project root, exceeded depth of %d", depth)
-			return
-		}
-		dir, err := findGoMod(start)
-		if err != nil {
-			return "", err
-		}
-		if dir == "" {
-			start, err = filepath.Abs(filepath.Dir(start))
-			if err != nil {
-				return "", err
-			}
-			continue
-		} else {
-			root, err = filepath.Abs(dir)
-			if err != nil {
-				return "", err
-			}
-			break
-		}
-	}
-	return
-}
-
 func loadDotEnv(depth int) (err error) {
-	projectRoot, err := findProjectRoot(depth)
+	projectRoot, err := utils.FindProjectRoot(depth)
 	if err != nil {
 		return
 	}
