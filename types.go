@@ -107,7 +107,7 @@ func SliceContains[T comparable](arr []T, item T) bool {
 }
 
 // MapHasKey determines if a given map has an entry for a given key.
-func MapHasKey[T comparable](m map[T]T, key T) bool {
+func MapHasKey[K comparable, V any](m map[K]V, key K) bool {
 	_, hasKey := m[key]
 	return hasKey
 }
