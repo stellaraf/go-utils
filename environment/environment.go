@@ -47,43 +47,49 @@ type EnvironmentOptions struct {
 	//
 	// Default: `4`
 	ProjectRootDepth int
+
+	// FileNames defines the .env file names to look for.
+	//
+	// Default:
+	//    []string{".env"}
+	FileNames []string
 }
 
-func loadDotEnv(depth int) (err error) {
+func loadDotEnv(depth int, fileNames []string) error {
 	projectRoot, err := utils.FindProjectRoot(depth)
 	if err != nil {
-		return
+		return err
 	}
-	envFile := filepath.Join(projectRoot, ".env")
-	if _, err := os.Stat(envFile); err == nil {
-		err = godotenv.Load(envFile)
-		if err != nil {
-			return err
+	exists := make([]string, 0, len(fileNames))
+	for _, fileName := range fileNames {
+		envFile := filepath.Join(projectRoot, fileName)
+		if _, err := os.Stat(envFile); err == nil {
+			exists = append(exists, envFile)
 		}
 	}
-	return
+	err = godotenv.Load(exists...)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func getOptions(optionsIn []*EnvironmentOptions) (options *EnvironmentOptions) {
+func getOptions(optionsIn []*EnvironmentOptions) *EnvironmentOptions {
 	defaultOptions := &EnvironmentOptions{
 		DotEnv:           true,
 		ProjectRootDepth: 4,
 	}
-	if len(optionsIn) != 0 {
-		firstOptions := optionsIn[0]
-		if firstOptions != nil {
-			if firstOptions.ProjectRootDepth == 0 {
-				firstOptions.ProjectRootDepth = 4
-			}
-			options = firstOptions
-		} else {
-			options = defaultOptions
-		}
-	}
 	if len(optionsIn) == 0 {
-		options = defaultOptions
+		return defaultOptions
 	}
-	return
+	firstOptions := optionsIn[0]
+	if firstOptions != nil {
+		if firstOptions.ProjectRootDepth == 0 {
+			firstOptions.ProjectRootDepth = 4
+		}
+		return firstOptions
+	}
+	return defaultOptions
 }
 
 /*
@@ -102,8 +108,14 @@ Usage:
 */
 func Load(ref any, options ...*EnvironmentOptions) (err error) {
 	opts := getOptions(options)
+	fileNames := make([]string, 0)
+	if len(opts.FileNames) == 0 {
+		fileNames = append(fileNames, ".env")
+	} else {
+		fileNames = opts.FileNames
+	}
 	if opts.DotEnv {
-		err = loadDotEnv(opts.ProjectRootDepth)
+		err = loadDotEnv(opts.ProjectRootDepth, fileNames)
 		if err != nil {
 			return
 		}
@@ -112,6 +124,7 @@ func Load(ref any, options ...*EnvironmentOptions) (err error) {
 	for key := range opts.FuncMap {
 		fm[key] = opts.FuncMap[key]
 	}
+
 	libOpts := env.Options{
 		Environment:           opts.Environment,
 		TagName:               opts.TagName,
