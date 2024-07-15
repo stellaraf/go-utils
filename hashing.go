@@ -24,3 +24,23 @@ func HashFromStrings(values ...string) (string, error) {
 	sum := hex.EncodeToString(b[:])
 	return sum, nil
 }
+
+// MustHashFromStrings creates a SHA256 checksum from any number of input string values and panics on error.
+func MustHashFromStrings(values ...string) string {
+	result, err := HashFromStrings(values...)
+	if err != nil {
+		panic(err)
+	}
+	return result
+}
+
+// ShouldHashFromStrings creates a SHA256 checksum from any number of input string values.
+// On error, a `__` joined string of input values is returned.
+func ShouldHashFromStrings(values ...string) string {
+	result, err := HashFromStrings(values...)
+	if err != nil {
+		joined := strings.Join(values, "__")
+		return joined
+	}
+	return result
+}

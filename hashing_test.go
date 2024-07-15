@@ -20,4 +20,12 @@ func Test_HashFromStrings(t *testing.T) {
 		require.ErrorIs(t, err, utils.ErrNoValues)
 		assert.Equal(t, "", result)
 	})
+	t.Run("same hash for same values", func(t *testing.T) {
+		values := []string{"this", "is", "a", "test"}
+		result1, err := utils.HashFromStrings(values...)
+		require.NoError(t, err)
+		result2, err := utils.HashFromStrings(values...)
+		require.NoError(t, err)
+		assert.Equal(t, result1, result2)
+	})
 }
