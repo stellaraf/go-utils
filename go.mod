@@ -1,4 +1,4 @@
-module go.stellar.af/utils
+module go.stellar.af/go-utils
 
 go 1.20
 

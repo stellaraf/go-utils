@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.stellar.af/utils/checksum"
+	"go.stellar.af/go-utils/checksum"
 )
 
 func Test_HashFromStrings(t *testing.T) {

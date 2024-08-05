@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.stellar.af/utils/mmap"
+	"go.stellar.af/go-utils/mmap"
 )
 
 func Test_HasKey(t *testing.T) {

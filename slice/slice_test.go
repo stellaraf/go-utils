@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.stellar.af/utils/slice"
+	"go.stellar.af/go-utils/slice"
 )
 
 func Test_Contains(t *testing.T) {

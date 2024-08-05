@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.stellar.af/utils/environment"
+	"go.stellar.af/go-utils/environment"
 )
 
 func Test_Load(t *testing.T) {

@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.stellar.af/utils/repo"
+	"go.stellar.af/go-utils/repo"
 )
 
 func SetupDir(t *testing.T) (string, error) {

@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.stellar.af/utils/random"
+	"go.stellar.af/go-utils/random"
 )
 
 func Test_RandomBytes(t *testing.T) {

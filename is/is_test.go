@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"go.stellar.af/utils/is"
+	"go.stellar.af/go-utils/is"
 )
 
 func Test_Guards(t *testing.T) {
