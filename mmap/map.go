@@ -16,6 +16,6 @@ func AssertValue[V any, K comparable](m map[K]any, key K) (V, bool) {
 			return a, true
 		}
 	}
-	var o any = ""
-	return o.(V), false
+	var o V
+	return o, false
 }

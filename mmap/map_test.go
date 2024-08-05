@@ -34,4 +34,12 @@ func Test_AssertValue(t *testing.T) {
 		_, ok := mmap.AssertValue[string](m, "not here")
 		assert.False(t, ok)
 	})
+	t.Run("has but wrong type", func(t *testing.T) {
+		t.Parallel()
+		m := map[string]any{
+			"key": 1,
+		}
+		_, ok := mmap.AssertValue[string](m, "key")
+		assert.False(t, ok)
+	})
 }
