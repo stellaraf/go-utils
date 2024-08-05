@@ -1,4 +1,4 @@
-package utils
+package checksum
 
 import (
 	"crypto/sha256"
@@ -10,7 +10,7 @@ import (
 var ErrNoValues = errors.New("no values provided")
 
 // HashFromStrings creates a SHA256 checksum from any number of input string values.
-func HashFromStrings(values ...string) (string, error) {
+func FromStrings(values ...string) (string, error) {
 	if len(values) == 0 {
 		return "", ErrNoValues
 	}
@@ -26,8 +26,8 @@ func HashFromStrings(values ...string) (string, error) {
 }
 
 // MustHashFromStrings creates a SHA256 checksum from any number of input string values and panics on error.
-func MustHashFromStrings(values ...string) string {
-	result, err := HashFromStrings(values...)
+func MustFromStrings(values ...string) string {
+	result, err := FromStrings(values...)
 	if err != nil {
 		panic(err)
 	}
@@ -36,8 +36,8 @@ func MustHashFromStrings(values ...string) string {
 
 // ShouldHashFromStrings creates a SHA256 checksum from any number of input string values.
 // On error, a `__` joined string of input values is returned.
-func ShouldHashFromStrings(values ...string) string {
-	result, err := HashFromStrings(values...)
+func ShouldFromStrings(values ...string) string {
+	result, err := FromStrings(values...)
 	if err != nil {
 		joined := strings.Join(values, "__")
 		return joined

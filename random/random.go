@@ -1,4 +1,4 @@
-package utils
+package random
 
 import (
 	"crypto/rand"
@@ -10,7 +10,7 @@ const urlSafe string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123
 const alphaNumeric string = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"
 
 // RandomBytes generates cryptographically secure random bytes.
-func RandomBytes(n int) ([]byte, error) {
+func Bytes(n int) ([]byte, error) {
 	if n < 1 {
 		return nil, fmt.Errorf("length must be a positive integer")
 	}
@@ -25,7 +25,7 @@ func RandomBytes(n int) ([]byte, error) {
 // RandomStringFromLetterSet generates a cryptographically secure random string from a given set
 // of letters. RandomStringFromLetterSet is used as the backend for RandomString and
 // RandomStringURLSafe.
-func RandomStringFromLetterSet(n int, l string) (string, error) {
+func StringFromLetterSet(n int, l string) (string, error) {
 	if n < 1 {
 		return "", fmt.Errorf("length must be a positive integer")
 	}
@@ -42,11 +42,11 @@ func RandomStringFromLetterSet(n int, l string) (string, error) {
 }
 
 // RandomString generates a cryptographically secure random string.
-func RandomString(n int) (string, error) {
-	return RandomStringFromLetterSet(n, alphaNumeric)
+func String(n int) (string, error) {
+	return StringFromLetterSet(n, alphaNumeric)
 }
 
 // RandomStringURLSafe generates a cryptographically secure random string that is URL safe.
-func RandomStringURLSafe(n int) (string, error) {
-	return RandomStringFromLetterSet(n, urlSafe)
+func StringURLSafe(n int) (string, error) {
+	return StringFromLetterSet(n, urlSafe)
 }

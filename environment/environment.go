@@ -7,7 +7,7 @@ import (
 
 	"github.com/caarlos0/env/v9"
 	"github.com/joho/godotenv"
-	"github.com/stellaraf/go-utils"
+	"github.com/stellaraf/go-utils/repo"
 )
 
 type EnvironmentOptions struct {
@@ -56,7 +56,7 @@ type EnvironmentOptions struct {
 }
 
 func loadDotEnv(depth int, fileNames []string) error {
-	projectRoot, err := utils.FindProjectRoot(depth)
+	projectRoot, err := repo.Root(depth)
 	if err != nil {
 		return err
 	}

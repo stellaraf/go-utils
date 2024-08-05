@@ -1,4 +1,4 @@
-package utils_test
+package random_test
 
 import (
 	"fmt"
@@ -6,21 +6,21 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/stellaraf/go-utils"
+	"github.com/stellaraf/go-utils/random"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_RandomBytes(t *testing.T) {
 	t.Run("random bytes", func(t *testing.T) {
 		length := 32
-		result, err := utils.RandomBytes(length)
+		result, err := random.Bytes(length)
 		assert.NoError(t, err)
 		assert.IsType(t, []byte{}, result)
 		assert.Len(t, result, length)
 	})
 	t.Run("random bytes errors when length is negative", func(t *testing.T) {
 		length := -1
-		_, err := utils.RandomBytes(length)
+		_, err := random.Bytes(length)
 		assert.Error(t, err)
 	})
 }
@@ -30,7 +30,7 @@ func Test_RandomStringFromLetterSet(t *testing.T) {
 	p := regexp.MustCompile(fmt.Sprintf("[%s]+", ls))
 	t.Run("random string from letter set", func(t *testing.T) {
 		length := 128
-		result, err := utils.RandomStringFromLetterSet(length, ls)
+		result, err := random.StringFromLetterSet(length, ls)
 		assert.NoError(t, err)
 		assert.IsType(t, "", result)
 		assert.Len(t, result, length)
@@ -39,7 +39,7 @@ func Test_RandomStringFromLetterSet(t *testing.T) {
 
 	t.Run("random string errors when length is negative", func(t *testing.T) {
 		length := -1
-		_, err := utils.RandomStringFromLetterSet(length, ls)
+		_, err := random.StringFromLetterSet(length, ls)
 		assert.Error(t, err)
 	})
 }
@@ -47,7 +47,7 @@ func Test_RandomStringFromLetterSet(t *testing.T) {
 func Test_RandomString(t *testing.T) {
 	t.Run("random string", func(t *testing.T) {
 		length := 32
-		result, err := utils.RandomString(length)
+		result, err := random.String(length)
 		assert.NoError(t, err)
 		assert.IsType(t, "", result)
 		assert.Len(t, result, length)
@@ -58,7 +58,7 @@ func Test_RandomString(t *testing.T) {
 func Test_RandomStringURLSafe(t *testing.T) {
 	t.Run("random url safe string", func(t *testing.T) {
 		length := 32
-		result, err := utils.RandomStringURLSafe(length)
+		result, err := random.StringURLSafe(length)
 		assert.NoError(t, err)
 		assert.IsType(t, "", result)
 		assert.Len(t, result, length)
