@@ -5,8 +5,8 @@ import (
 
 	"math/rand"
 
-	"github.com/stellaraf/go-utils/slice"
 	"github.com/stretchr/testify/assert"
+	"go.stellar.af/utils/slice"
 )
 
 func uniqueRand(min, max int, bad map[int]bool) int {

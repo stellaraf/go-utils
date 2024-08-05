@@ -7,7 +7,7 @@ import (
 
 	"github.com/caarlos0/env/v9"
 	"github.com/joho/godotenv"
-	"github.com/stellaraf/go-utils/repo"
+	"go.stellar.af/utils/repo"
 )
 
 type EnvironmentOptions struct {

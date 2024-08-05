@@ -9,12 +9,14 @@ import (
 
 var ErrNoValues = errors.New("no values provided")
 
+var Separator string = "__"
+
 // HashFromStrings creates a SHA256 checksum from any number of input string values.
 func FromStrings(values ...string) (string, error) {
 	if len(values) == 0 {
 		return "", ErrNoValues
 	}
-	src := strings.Join(values, "__")
+	src := strings.Join(values, Separator)
 	hash := sha256.New()
 	_, err := hash.Write([]byte(src))
 	if err != nil {
@@ -39,7 +41,7 @@ func MustFromStrings(values ...string) string {
 func ShouldFromStrings(values ...string) string {
 	result, err := FromStrings(values...)
 	if err != nil {
-		joined := strings.Join(values, "__")
+		joined := strings.Join(values, Separator)
 		return joined
 	}
 	return result

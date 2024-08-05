@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/stellaraf/go-utils/repo"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"go.stellar.af/utils/repo"
 )
 
 func SetupDir(t *testing.T) (string, error) {

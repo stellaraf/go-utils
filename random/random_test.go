@@ -6,8 +6,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/stellaraf/go-utils/random"
 	"github.com/stretchr/testify/assert"
+	"go.stellar.af/utils/random"
 )
 
 func Test_RandomBytes(t *testing.T) {

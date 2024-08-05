@@ -3,7 +3,7 @@ package encryption_test
 import (
 	"fmt"
 
-	"github.com/stellaraf/go-utils/encryption"
+	"go.stellar.af/utils/encryption"
 )
 
 func Example() {

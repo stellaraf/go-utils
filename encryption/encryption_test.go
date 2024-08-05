@@ -4,8 +4,8 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/stellaraf/go-utils/encryption"
 	"github.com/stretchr/testify/assert"
+	"go.stellar.af/utils/encryption"
 )
 
 func randomString(n int) string {

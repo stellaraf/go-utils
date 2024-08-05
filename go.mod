@@ -1,4 +1,4 @@
-module github.com/stellaraf/go-utils
+module go.stellar.af/utils
 
 go 1.20
 

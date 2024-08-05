@@ -3,9 +3,9 @@ package checksum_test
 import (
 	"testing"
 
-	"github.com/stellaraf/go-utils/checksum"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"go.stellar.af/utils/checksum"
 )
 
 func Test_HashFromStrings(t *testing.T) {

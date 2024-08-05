@@ -5,9 +5,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stellaraf/go-utils/environment"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"go.stellar.af/utils/environment"
 )
 
 func Test_Load(t *testing.T) {

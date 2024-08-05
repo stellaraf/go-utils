@@ -3,8 +3,8 @@ package mmap_test
 import (
 	"testing"
 
-	"github.com/stellaraf/go-utils/mmap"
 	"github.com/stretchr/testify/assert"
+	"go.stellar.af/utils/mmap"
 )
 
 func Test_HasKey(t *testing.T) {
