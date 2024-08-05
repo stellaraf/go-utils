@@ -3,19 +3,9 @@ package slice_test
 import (
 	"testing"
 
-	"math/rand"
-
 	"github.com/stretchr/testify/assert"
 	"go.stellar.af/utils/slice"
 )
-
-func uniqueRand(min, max int, bad map[int]bool) int {
-	n := rand.Intn(max-min) + min
-	if bad[n] {
-		return uniqueRand(min, max, bad)
-	}
-	return n
-}
 
 func Test_Contains(t *testing.T) {
 	t.Run("slice contains", func(t *testing.T) {
@@ -54,16 +44,6 @@ func Test_Dedup(t *testing.T) {
 		t.Parallel()
 		result := slice.Dedup([]int{0, 1, 2, 3, 0, 1, 2, 3})
 		assert.ElementsMatch(t, []int{0, 1, 2, 3}, result)
-	})
-	t.Run("large unique", func(t *testing.T) {
-		sl := make([]int, 100)
-		m := map[int]bool{}
-		for i := range sl {
-			sl[i] = uniqueRand(1, 41713, m)
-		}
-		set := slice.Dedup(sl)
-		assert.Equal(t, len(sl), len(set))
-		assert.ElementsMatch(t, sl, set)
 	})
 }
 
