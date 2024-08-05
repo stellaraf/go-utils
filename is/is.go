@@ -110,3 +110,18 @@ func Uint64(in any) bool {
 	_, ok := in.(uint64)
 	return ok
 }
+
+// OneOf determines if the input value (first parameter) is equal to any of the trailing values.
+//
+// # Example
+//
+//	OneOf("one", "one", "two", "three") // true
+//	OneOf(5, 1, 2, 3) // false
+func OneOf[T comparable](searchFor T, searchIn ...T) bool {
+	for _, item := range searchIn {
+		if item == searchFor {
+			return true
+		}
+	}
+	return false
+}

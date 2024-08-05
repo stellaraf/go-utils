@@ -91,3 +91,36 @@ func Test_Guards(t *testing.T) {
 		assert.False(t, is.Uint64(""))
 	})
 }
+
+func Test_OneOf(t *testing.T) {
+	t.Run("strings", func(t *testing.T) {
+		t.Parallel()
+		of := []string{"one", "two", "three", "four"}
+		result := is.OneOf("one", of...)
+		assert.True(t, result)
+	})
+	t.Run("ints", func(t *testing.T) {
+		t.Parallel()
+		of := []int{1, 2, 3, -18, 1_000}
+		result := is.OneOf(-18, of...)
+		assert.True(t, result)
+	})
+	t.Run("constants & nested prop", func(t *testing.T) {
+		t.Parallel()
+		type T struct {
+			Val string
+		}
+		const one string = "one"
+		const two string = "two"
+		const three string = "three"
+		s := T{Val: "two"}
+		result := is.OneOf(s.Val, one, two, three)
+		assert.True(t, result)
+	})
+	t.Run("negative", func(t *testing.T) {
+		t.Parallel()
+		of := []int{1, 2, 3, 4, 5}
+		result := is.OneOf(6, of...)
+		assert.False(t, result)
+	})
+}

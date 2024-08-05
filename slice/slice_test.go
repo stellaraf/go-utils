@@ -72,3 +72,26 @@ func Test_Chunk(t *testing.T) {
 		assert.Len(t, out, 3)
 	})
 }
+
+func Test_HasAll(t *testing.T) {
+	t.Run("basic", func(t *testing.T) {
+		t.Parallel()
+		result := slice.HasAll([]string{"one", "two", "three"}, []string{"two", "three", "one"})
+		assert.True(t, result)
+	})
+	t.Run("basic negative", func(t *testing.T) {
+		t.Parallel()
+		result := slice.HasAll([]string{"one", "two", "three"}, []string{"one", "two", "three", "four"})
+		assert.False(t, result)
+	})
+	t.Run("longer head", func(t *testing.T) {
+		t.Parallel()
+		result := slice.HasAll([]string{"one", "two", "three", "four"}, []string{"one", "two"})
+		assert.False(t, result)
+	})
+	t.Run("duplicates", func(t *testing.T) {
+		t.Parallel()
+		result := slice.HasAll([]int{1, 2, 3, 1, 3}, []int{1, 2, 3})
+		assert.True(t, result)
+	})
+}

@@ -69,3 +69,18 @@ func Chunk[T any](items []T, size int) [][]T {
 	batches = append(batches, items)
 	return batches
 }
+
+// HasAll determines if all elements of two slices are contained within both slices.
+func HasAll[T comparable](s1 []T, s2 []T) bool {
+	for _, el := range s1 {
+		if !Contains(s2, el) {
+			return false
+		}
+	}
+	for _, el := range s2 {
+		if !Contains(s1, el) {
+			return false
+		}
+	}
+	return true
+}

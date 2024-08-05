@@ -1,6 +1,7 @@
 package mmap_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -42,4 +43,25 @@ func Test_AssertValue(t *testing.T) {
 		_, ok := mmap.AssertValue[string](m, "key")
 		assert.False(t, ok)
 	})
+}
+
+func Test_Sort(t *testing.T) {
+	t.Parallel()
+	m := map[string]int{
+		"b": 1,
+		"a": 1,
+		"c": 1,
+	}
+	sorted := mmap.Sort(m)
+	e := `map[a:1 b:1 c:1]`
+	assert.Equal(t, e, fmt.Sprint(sorted))
+}
+
+func Test_MergeMaps(t *testing.T) {
+	t.Parallel()
+	m1 := map[string]any{"one": 1}
+	m2 := map[string]any{"two": 2}
+	r := mmap.Merge(m1, m2)
+	assert.Equal(t, r["one"], 1)
+	assert.Equal(t, r["two"], 2)
 }

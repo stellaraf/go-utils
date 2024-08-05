@@ -20,5 +20,6 @@
 | `random`      | Generate random strings or bytes of various formats                                     |      [![Go Docs](https://img.shields.io/badge/godoc-reference-007D9C.svg?style=for-the-badge)](https://pkg.go.dev/go.stellar.af/go-utils/random) |
 | `repo`        | Find a Go project's root directory and/or go.mod file                                   |        [![Go Docs](https://img.shields.io/badge/godoc-reference-007D9C.svg?style=for-the-badge)](https://pkg.go.dev/go.stellar.af/go-utils/repo) |
 | `slice`       | Slice utilities                                                                         |       [![Go Docs](https://img.shields.io/badge/godoc-reference-007D9C.svg?style=for-the-badge)](https://pkg.go.dev/go.stellar.af/go-utils/slice) |
+| `str`         | String utilities                                                                        |         [![Go Docs](https://img.shields.io/badge/godoc-reference-007D9C.svg?style=for-the-badge)](https://pkg.go.dev/go.stellar.af/go-utils/str) |
 
 ![GitHub License](https://img.shields.io/github/license/stellaraf/go-utils?style=for-the-badge&color=black)
