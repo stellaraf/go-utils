@@ -1,9 +1,11 @@
 package slice_test
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"go.stellar.af/go-utils/random"
 	"go.stellar.af/go-utils/slice"
 )
 
@@ -94,4 +96,19 @@ func Test_HasAll(t *testing.T) {
 		result := slice.HasAll([]int{1, 2, 3, 1, 3}, []int{1, 2, 3})
 		assert.True(t, result)
 	})
+}
+
+func Test_StringerStrings(t *testing.T) {
+	t.Parallel()
+	bufs := make([]*bytes.Buffer, 4)
+	strs := make([]string, len(bufs))
+	for i := 0; i < len(bufs); i++ {
+		buf := new(bytes.Buffer)
+		b, _ := random.Bytes(i * 128)
+		buf.Write(b)
+		bufs[i] = buf
+		strs[i] = string(b)
+	}
+	result := slice.StringerStrings(bufs)
+	assert.Equal(t, strs, result)
 }

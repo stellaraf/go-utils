@@ -2,6 +2,10 @@ package slice
 
 import "strings"
 
+type Stringer interface {
+	String() string
+}
+
 // Contains determines if a given slice contains a given item.
 func Contains[T comparable](arr []T, item T) bool {
 	for _, element := range arr {
@@ -83,4 +87,14 @@ func HasAll[T comparable](s1 []T, s2 []T) bool {
 		}
 	}
 	return true
+}
+
+// StringerStrings converts a slice of any interface with a String() method
+// to a slice of values returned from the String() method.
+func StringerStrings[E Stringer](slice []E) []string {
+	result := make([]string, len(slice))
+	for i, e := range slice {
+		result[i] = e.String()
+	}
+	return result
 }
