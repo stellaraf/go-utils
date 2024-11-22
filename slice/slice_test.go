@@ -112,3 +112,13 @@ func Test_StringerStrings(t *testing.T) {
 	result := slice.StringerStrings(bufs)
 	assert.Equal(t, strs, result)
 }
+
+func Test_Merge(t *testing.T) {
+	t.Parallel()
+	s1 := []string{"one", "two", "three"}
+	s2 := []string{"four", "five", "six"}
+	s3 := []string{"seven", "eight", "nine"}
+	exp := len(s1) + len(s2) + len(s3)
+	result := slice.Merge(s1, s2, s3)
+	assert.Len(t, result, exp)
+}

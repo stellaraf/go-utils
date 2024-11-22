@@ -98,3 +98,11 @@ func StringerStrings[E Stringer](slice []E) []string {
 	}
 	return result
 }
+
+// Merge merges any number of slices with an initial slice.
+func Merge[T any](s1 []T, ss ...[]T) []T {
+	for _, s := range ss {
+		s1 = append(s1, s...)
+	}
+	return s1
+}
