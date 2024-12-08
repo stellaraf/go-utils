@@ -12,6 +12,7 @@ import (
 
 func Test_Load(t *testing.T) {
 	t.Run("load without options", func(t *testing.T) {
+		t.Parallel()
 		type Env struct {
 			Key string `env:"KEY"`
 		}
@@ -21,6 +22,7 @@ func Test_Load(t *testing.T) {
 		assert.Equal(t, "value", env.Key)
 	})
 	t.Run("load with options", func(t *testing.T) {
+		t.Parallel()
 		type Env struct {
 			Test string `env:"TEST_VARIABLE"`
 		}
@@ -36,6 +38,7 @@ func Test_Load(t *testing.T) {
 		assert.Equal(t, value, env.Test)
 	})
 	t.Run("load from non-default file", func(t *testing.T) {
+		t.Parallel()
 		type Env struct {
 			TestKey string `env:"TESTKEY"`
 		}
@@ -47,6 +50,19 @@ func Test_Load(t *testing.T) {
 		err := environment.Load(&env, options)
 		require.NoError(t, err)
 		assert.Equal(t, "TESTVAL", env.TestKey)
+	})
+	t.Run("errors when env file does not exist", func(t *testing.T) {
+		t.Parallel()
+		type Env struct {
+			TestKey string `env:"TESTKEY"`
+		}
+		var env Env
+		options := &environment.EnvironmentOptions{
+			DotEnv:    true,
+			FileNames: []string{".env.fake"},
+		}
+		err := environment.Load(&env, options)
+		assert.Error(t, err)
 	})
 }
 

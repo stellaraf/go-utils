@@ -106,18 +106,17 @@ Usage:
 	err := environment.Load(&env)
 	env.Key // Output: "value"
 */
-func Load(ref any, options ...*EnvironmentOptions) (err error) {
+func Load(ref any, options ...*EnvironmentOptions) error {
 	opts := getOptions(options)
-	fileNames := make([]string, 0)
+	var fileNames []string
 	if len(opts.FileNames) == 0 {
-		fileNames = append(fileNames, ".env")
+		fileNames = []string{".env"}
 	} else {
 		fileNames = opts.FileNames
 	}
 	if opts.DotEnv {
-		err = loadDotEnv(opts.ProjectRootDepth, fileNames)
-		if err != nil {
-			return
+		if err := loadDotEnv(opts.ProjectRootDepth, fileNames); err != nil {
+			return err
 		}
 	}
 	fm := make(map[reflect.Type]env.ParserFunc)
@@ -134,7 +133,5 @@ func Load(ref any, options ...*EnvironmentOptions) (err error) {
 		UseFieldNameByDefault: opts.UseFieldNameByDefault,
 		FuncMap:               fm,
 	}
-	err = env.ParseWithOptions(ref, libOpts)
-	return
-
+	return env.ParseWithOptions(ref, libOpts)
 }
