@@ -66,3 +66,17 @@ func Test_SetValue(t *testing.T) {
 		assert.Equal(t, "", ss.Field)
 	})
 }
+
+func Test_FromMap(t *testing.T) {
+	type S struct {
+		Field string `json:"field"`
+	}
+	m := map[string]string{"field": "value"}
+	t.Run("base", func(t *testing.T) {
+		t.Parallel()
+		ss, err := sstruct.FromMap[S](m)
+		require.NoError(t, err)
+		assert.IsType(t, &S{}, ss)
+		assert.Equal(t, m["field"], ss.Field)
+	})
+}
