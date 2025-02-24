@@ -106,3 +106,21 @@ func Merge[T any](s1 []T, ss ...[]T) []T {
 	}
 	return s1
 }
+
+// DePointer converts a slice of pointers to a slice of values.
+// For example:
+//
+//	[]*string{}
+//
+// Would become:
+//
+//	[]string{}
+func DePointer[T any](sl []*T) []T {
+	out := make([]T, 0, len(sl))
+	for _, p := range sl {
+		if p != nil {
+			out = append(out, *p)
+		}
+	}
+	return out
+}

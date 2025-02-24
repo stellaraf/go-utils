@@ -122,3 +122,21 @@ func Test_Merge(t *testing.T) {
 	result := slice.Merge(s1, s2, s3)
 	assert.Len(t, result, exp)
 }
+
+func Test_DePointer(t *testing.T) {
+	t.Parallel()
+	in := make([]*string, 4)
+	for i := 0; i < len(in); i++ {
+		str, _ := random.String(16)
+		in[i] = &str
+	}
+	out := slice.DePointer(in)
+	assert.IsType(t, []string{}, out)
+	assert.Len(t, out, len(in))
+	for i := 0; i < len(in); i++ {
+		o := out[i]
+		e := in[i]
+		assert.Equal(t, *e, o)
+		assert.Equal(t, e, &o)
+	}
+}
