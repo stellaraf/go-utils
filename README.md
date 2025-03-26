@@ -25,5 +25,6 @@
 | `slice`       | Slice utilities                                                                         |       [![Go Docs](https://img.shields.io/badge/godoc-reference-007D9C.svg?style=for-the-badge)](https://pkg.go.dev/go.stellar.af/go-utils/slice) |
 | `sstruct`     | Struct utilities                                                                        |     [![Go Docs](https://img.shields.io/badge/godoc-reference-007D9C.svg?style=for-the-badge)](https://pkg.go.dev/go.stellar.af/go-utils/sstruct) |
 | `str`         | String utilities                                                                        |         [![Go Docs](https://img.shields.io/badge/godoc-reference-007D9C.svg?style=for-the-badge)](https://pkg.go.dev/go.stellar.af/go-utils/str) |
+| `ttime`       | Time utilities                                                                          |       [![Go Docs](https://img.shields.io/badge/godoc-reference-007D9C.svg?style=for-the-badge)](https://pkg.go.dev/go.stellar.af/go-utils/ttime) |
 
 ![GitHub License](https://img.shields.io/github/license/stellaraf/go-utils?style=for-the-badge&color=black)
